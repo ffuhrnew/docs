@@ -1,0 +1,28 @@
+TailCloud (opencloud self-hosted with full encryption in tailscale VPN)
+
+1) Install tailscale on the host -->https://tailscale.com/kb/1031/install-linux
+curl -fsSL https://tailscale.com/install.sh | sh
+
+2) Follow the guide for Getting Started-Classic Docker setup until Step 3 --> https://github.com/opencloud-eu/docs/blob/main/docs/admin/20-getting-started/30-docker.md#3--initialize-opencloud-first-time-setup
+It is necessary to initialize OpenCloud! And only ONE Time!
+
+3)change into directory for the certs
+cd $HOME/opencloud/opencloud-data/proxy
+
+4) get ssl certs for your opencloud-server
+tailscale cert opencloud.TAILSCALEDOMAIN.ts.net
+mv server.* server_old.* 
+rename the TailScale CRT and KEY file to server.crt and server.key
+
+5) Go ahead to step 4 -->https://github.com/opencloud-eu/docs/blob/main/docs/admin/20-getting-started/30-docker.md#4-start-opencloud 
+
+Change 2 lines:
+ -e OC_INSECURE=true \  -->  -e OC_INSECURE=false \
+ -e OC_URL=https://localhost:9200 \ -->  -e OC_URL=https://opencloud.YOURTAILSCALEDOMAIN.ts.net:9200 \ 
+
+6) Open a browser and go to:
+https://opencloud.YOURTAILSCALEDOMAIN.ts.net:9200
+
+7) That´s all ... for now😄
+
+Greetz FF93
